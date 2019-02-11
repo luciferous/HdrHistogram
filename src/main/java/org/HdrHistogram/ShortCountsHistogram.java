@@ -200,9 +200,7 @@ public class ShortCountsHistogram extends AbstractHistogram {
      */
     public ShortCountsHistogram(final long lowestDiscernibleValue, final long highestTrackableValue,
                                 final int numberOfSignificantValueDigits) {
-        super(lowestDiscernibleValue, highestTrackableValue, numberOfSignificantValueDigits);
-        counts = new short[countsArrayLength];
-        wordSizeInBytes = 2;
+        this(lowestDiscernibleValue, highestTrackableValue, numberOfSignificantValueDigits, true);
     }
 
     /**
@@ -211,8 +209,23 @@ public class ShortCountsHistogram extends AbstractHistogram {
      * @param source The source histogram to duplicate
      */
     public ShortCountsHistogram(final AbstractHistogram source) {
+        this(source, true);
+    }
+
+    ShortCountsHistogram(final AbstractHistogram source, boolean allocateCountsArray) {
         super(source);
-        counts = new short[countsArrayLength];
+        if (allocateCountsArray) {
+            counts = new short[countsArrayLength];
+        }
+        wordSizeInBytes = 2;
+    }
+
+    ShortCountsHistogram(final long lowestDiscernibleValue, final long highestTrackableValue,
+              final int numberOfSignificantValueDigits, boolean allocateCountsArray) {
+        super(lowestDiscernibleValue, highestTrackableValue, numberOfSignificantValueDigits);
+        if (allocateCountsArray) {
+            counts = new short[countsArrayLength];
+        }
         wordSizeInBytes = 2;
     }
 
